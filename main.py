@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import datetime as dt
 import streamlit as st
 import plotly.graph_objects as go
@@ -45,7 +44,7 @@ data_df = get_data_df(raw_df)
 country_lst = get_countries(data_df)
 
 selected_country = st.selectbox("Select Country", 
-    country_lst, country_lst.index("Malaysia"))
+    country_lst, country_lst.index("United Kingdom"))
 
 target_df = get_country_df(selected_country, data_df)
 
@@ -66,7 +65,6 @@ fig.add_trace(
         name="ConfirmedDeaths"
     )
 )
-
 
 fig.add_trace(
     go.Scatter(
