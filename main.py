@@ -8,6 +8,7 @@ from plotly.subplots import make_subplots
 def read_file(date, path="data/oxcgrt.csv", remove_unnamed=True):
 
     raw_df = pd.read_csv(path, parse_dates=["Date"])
+    raw_df['Date'] = pd.to_datetime(raw_df['Date']).dt.date
 
     if remove_unnamed:
         raw_df = raw_df.loc[:, ~raw_df.columns.str.contains('^Unnamed')]
@@ -74,6 +75,13 @@ fig.add_trace(
     ),
     secondary_y=True
 )
+
+fig.update_layout(
+    title="Daily change in Stringency, Cases & Deaths"
+)
+fig.update_xaxes(title_text="Date")
+fig.update_yaxes(title_text="Cases/Deaths", secondary_y=False)
+fig.update_yaxes(title_text="StringencyIndex", secondary_y=True)
 
 st.write(fig)
 st.write(target_df[["Date", "StringencyIndex", "ConfirmedCases", "ConfirmedDeaths"]].set_index("Date"))
