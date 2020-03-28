@@ -50,6 +50,11 @@ selected_country = st.selectbox("Select Country",
 
 target_df = get_country_df(selected_country, data_df)
 
+remove_zero = st.checkbox("Remove zero cases", value=True)
+
+if remove_zero:
+    target_df = target_df[(target_df[["StringencyIndex", "ConfirmedCases", "ConfirmedDeaths"]].T != 0).any()]
+
 fig = make_subplots(specs=[[{"secondary_y": True}]])
 
 fig.add_trace(
