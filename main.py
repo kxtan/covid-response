@@ -51,7 +51,6 @@ def get_country_df(country, data_df):
     return grouped.get_group(selected_country)
 
 st.title("Country Covid-19 Tracker")
-st.write(dt.date.today())
 raw_df = read_file(str(dt.date.today()))
 
 if is_outdated(raw_df):
