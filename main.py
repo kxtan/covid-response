@@ -53,8 +53,8 @@ def get_country_df(country, data_df):
 st.title("Country Covid-19 Tracker")
 raw_df = read_file(str(dt.date.today()))
 
-if is_outdated(raw_df):
-    raw_df = read_file(str(dt.date.today()))
+# if is_outdated(raw_df):
+#     raw_df = read_file(str(dt.date.today()))
 
 data_df = get_data_df(raw_df)
 country_lst = get_countries(data_df)
