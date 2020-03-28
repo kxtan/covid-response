@@ -5,16 +5,6 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from data_updater import download_data, convert_excel_to_csv
 
-def is_outdated(df):
-    # Read the most recent date from the current file
-    most_recent_date = df['Date'].max()
-    
-    # Meaning the file is outdated
-    if most_recent_date < dt.date.today():
-        download_data('https://www.bsg.ox.ac.uk/sites/default/files/OxCGRT_Download_latest_data.xlsx')
-        convert_excel_to_csv('data/data_in_excel.xlsx', 'data/oxcgrt.csv')
-
-
 @st.cache
 def read_file(date, path="data/oxcgrt.csv", remove_unnamed=True):
 
@@ -52,9 +42,6 @@ def get_country_df(country, data_df):
 
 st.title("Country Covid-19 Tracker")
 raw_df = read_file(str(dt.date.today()))
-
-# if is_outdated(raw_df):
-#     raw_df = read_file(str(dt.date.today()))
 
 data_df = get_data_df(raw_df)
 country_lst = get_countries(data_df)
