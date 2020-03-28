@@ -19,6 +19,7 @@ def read_file(date, path="data/oxcgrt.csv", remove_unnamed=True):
 def get_countries(raw_df):
 
     country_lst = list(set(raw_df["CountryName"].values))
+    country_lst.sort()
 
     return country_lst[:]
 
@@ -84,7 +85,8 @@ fig.update_yaxes(title_text="Cases/Deaths", secondary_y=False)
 fig.update_yaxes(title_text="StringencyIndex", secondary_y=True)
 
 st.write(fig)
-st.write(target_df[["Date", "StringencyIndex", "ConfirmedCases", "ConfirmedDeaths"]].set_index("Date"))
+st.write(target_df[["Date", "StringencyIndex", "ConfirmedCases", "ConfirmedDeaths"]]\
+    .set_index("Date").sort_index(ascending=False))
 
 st.subheader("Disclaimer:")
 st.text(" Please note that the  Stringency Index is for comparative purposes only, and should not\
