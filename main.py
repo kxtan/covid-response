@@ -3,7 +3,6 @@ import datetime as dt
 import streamlit as st
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from data_updater import download_data, convert_excel_to_csv
 
 @st.cache
 def read_file(date, path="data/oxcgrt.csv", remove_unnamed=True):
