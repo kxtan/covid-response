@@ -43,6 +43,7 @@ def get_country_df(country, data_df, drop_countries=True):
         df = df.drop(columns=["CountryName", "CountryCode"])
 
     return df
+
 @st.cache
 def get_school_closed_df(country, data_df):
     
@@ -53,6 +54,27 @@ def get_school_closed_df(country, data_df):
 
     school_closed_df = school_closed_df['Date'].min()
     return school_closed_df
+
+@st.cache
+def latest_country_stringency_index(data_df):
+
+    grouped = data_df.groupby("CountryCode")
+    latest_df = None
+    ffill_cols = ["StringencyIndex"]
+        
+    for code, country_df  in grouped:
+
+        country_df = country_df.set_index("Date").sort_index()
+        country_df.loc[:, ffill_cols] = country_df.loc[:, ffill_cols].ffill()
+        last_row = country_df.tail(1)
+
+        if latest_df is None:
+            latest_df = last_row
+            continue
+
+        latest_df = latest_df.append(last_row)
+
+    return latest_df
 
 
 st.title("Country Covid-19 Tracker")
@@ -168,12 +190,41 @@ delta_fig.update_yaxes(title_text="StringencyIndex", secondary_y=True)
 st.subheader("Daily Changes in {}".format(selected_country))
 st.write(delta_fig)
 
-
 display_columns = ["Date", "ConfirmedCases", 
     "ConfirmedDeaths"]
 display_delta_df = delta_df.rename(columns={"ConfirmedCases": "NewCases", "ConfirmedDeaths": "NewDeaths"})
 display_delta_df = display_delta_df.set_index("Date").sort_index(ascending=False)
 st.write(display_delta_df)
+
+show_stringency_map = st.sidebar.checkbox("Show Stringency Map", value=True)
+
+if show_stringency_map:
+
+    st.subheader("Global Map of Stringency Index")
+    
+    stringency_by_country_df = latest_country_stringency_index(data_df)
+
+    stringency_fig = go.Figure(
+        data=go.Choropleth(
+            locations = stringency_by_country_df['CountryCode'],
+            z = stringency_by_country_df['StringencyIndex'],
+            text = stringency_by_country_df['CountryName'],
+            colorscale = 'Blues',
+            autocolorscale=True,
+            reversescale=False,
+            marker_line_color='darkgray',
+            marker_line_width=0.5,
+            colorbar_title = 'StringencyIndex',
+        ),
+        layout=go.Layout(
+            #title='Stringency Index Map',
+            autosize=True,
+            hovermode='closest',
+            margin=dict(t=0, b=0, l=0, r=0)
+        )
+    )
+
+    st.write(stringency_fig)
 
 st.subheader("Disclaimer:")
 st.text(" Please note that the  Stringency Index is for comparative purposes only, and should not\
