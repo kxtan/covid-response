@@ -123,9 +123,10 @@ cumu_fig.update_xaxes(title_text="Date")
 cumu_fig.update_yaxes(title_text="Cases/Deaths", secondary_y=False)
 cumu_fig.update_yaxes(title_text="StringencyIndex", secondary_y=True)
 
+st.subheader("Cumulative Values")
 st.write(cumu_fig)
 
-st.subheader("Cumulative Table: ")
+
 display_columns = ["Date", "ConfirmedCases", 
     "ConfirmedDeaths", "StringencyIndex"]
 st.write(target_df[display_columns].set_index("Date").sort_index(ascending=False))
@@ -164,9 +165,10 @@ delta_fig.update_xaxes(title_text="Date")
 delta_fig.update_yaxes(title_text="Cases/Deaths", secondary_y=False)
 delta_fig.update_yaxes(title_text="StringencyIndex", secondary_y=True)
 
+st.subheader("Daily Change Values")
 st.write(delta_fig)
 
-st.subheader("Daily Changes Table: ")
+
 display_columns = ["Date", "ConfirmedCases", 
     "ConfirmedDeaths"]
 display_delta_df = delta_df.rename(columns={"ConfirmedCases": "NewCases", "ConfirmedDeaths": "NewDeaths"})
