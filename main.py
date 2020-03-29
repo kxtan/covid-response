@@ -123,7 +123,7 @@ cumu_fig.update_xaxes(title_text="Date")
 cumu_fig.update_yaxes(title_text="Cases/Deaths", secondary_y=False)
 cumu_fig.update_yaxes(title_text="StringencyIndex", secondary_y=True)
 
-st.subheader("Cumulative Values")
+st.subheader("Cumulative cases in {}".format(selected_country))
 st.write(cumu_fig)
 
 
@@ -165,7 +165,7 @@ delta_fig.update_xaxes(title_text="Date")
 delta_fig.update_yaxes(title_text="Cases/Deaths", secondary_y=False)
 delta_fig.update_yaxes(title_text="StringencyIndex", secondary_y=True)
 
-st.subheader("Daily Change Values")
+st.subheader("Daily Changes in {}".format(selected_country))
 st.write(delta_fig)
 
 
